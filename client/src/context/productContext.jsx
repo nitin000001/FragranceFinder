@@ -23,7 +23,16 @@ const ProductProvider = ({ children }) => {
     navigate
   ) => {
     try {
-      const res = await axios.post("/api/product/create", formData);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/product/create`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       if (res.data.success) {
         toast.success("Product created successfully!");
 
@@ -53,7 +62,9 @@ const ProductProvider = ({ children }) => {
   const fetchCreatedProducts = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get("/api/product/create"); 
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/product/create`
+      );
       setCreatedProducts(data);
     } catch (error) {
       console.error("Failed to fetch created products:", error);
@@ -67,7 +78,9 @@ const ProductProvider = ({ children }) => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get("/api/product/getAllProducts");
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/product/getAllProducts`
+      );
       setProducts(data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -81,7 +94,9 @@ const ProductProvider = ({ children }) => {
   const fetchSingleProduct = async (id) => {
     setLoading(true);
     try {
-      const { data } = await axios.get(`/api/product/${id}`);
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/product/${id}`
+      );
       setSingleProduct(data);
     } catch (error) {
       console.error("Failed to fetch single product:", error);
@@ -106,7 +121,7 @@ const ProductProvider = ({ children }) => {
         fetchSingleProduct,
         fetchCreatedProducts,
         createdProducts,
-        createProduct, 
+        createProduct,
       }}
     >
       {children}
